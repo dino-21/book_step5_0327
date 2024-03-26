@@ -44,6 +44,14 @@
 
 				<button data-oper='list' class="btn btn-default btn-info"
 					onclick="location.href='/board/list'">List</button>
+					
+				<form id='operForm' action="/board/modify" method='get'>
+					<input type='hidden' id="bno" name='bno' value='${board.bno}'>
+					<input type='hidden' name='pageNum' value='${cri.pageNum}'>
+					<input type='hidden' name='amount' value='${cri.amount}'>
+					<input type='hidden' name='type' value='${cri.type}'>
+	                <input type='hidden' name='keyword' value='${cri.keyword}'>
+				</form>
 			</div>
 			<!-- /.panel-body -->
 		</div>
@@ -54,5 +62,23 @@
 <!-- /.row -->
 </div>
 <!-- /#page-wrapper -->
-
 <%@include file="../includes/footer.jsp"%>
+
+<script type="text/javascript">
+$(document).ready(function() {
+  var operForm = $("#operForm"); 
+  $("button[data-oper='modify']").on("click", function(e){
+    operForm.attr("action","/board/modify").submit();
+  });
+  
+    
+  $("button[data-oper='list']").on("click", function(e){
+    
+    operForm.find("#bno").remove();
+    operForm.attr("action","/board/list")
+    operForm.submit();
+    
+  });  
+});
+</script>
+

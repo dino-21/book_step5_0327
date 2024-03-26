@@ -1,11 +1,16 @@
 package org.zerock.mapper;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.zerock.domain.BoardVO;
+import org.zerock.domain.Criteria;
 
 import lombok.extern.log4j.Log4j;
 
@@ -70,6 +75,41 @@ public class BoardMapperTests {
 		log.info("UPDATE COUNT: " + count);
 	}
 
+	@Test
+	public void testPageing() {
+		Criteria cri = new Criteria(2,5);
+		List<BoardVO> list = mapper.getListWithPaging(cri);  // 2페이지 10개 보여주세요.
+		list.forEach(board->log.info(board));
+	}
 
-
+	
+	@Test
+	public void testSearch() {
+		Map<String, String> map = new HashMap<String, String>();
+			
+		map.put("T", "1");
+		map.put("C", "테스트");
+	            map.put("W", "테스트");
+			
+		Map<String, Map<String, String>> outer = new HashMap<>();
+			
+		outer.put("map", map);
+			
+		List<BoardVO> list = mapper.searchTest(outer);
+		log.info(list);
+			
+	}
+	
+	
+	@Test
+	public void testgetListWithPaging() {
+		Criteria cri = new Criteria();
+			
+		// cri.setKeyword("user00");
+		// cri.setType("TCW");
+			
+		mapper.getListWithPaging(cri)
+		.forEach(list-> log.info(list));
+			
+	}
 }

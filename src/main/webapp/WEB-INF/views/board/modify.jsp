@@ -19,6 +19,10 @@
 			<!-- /.panel-heading -->
 			<div class="panel-body">
 				<form role="form" action="/board/modify" method="post">
+				<input type='hidden' name='pageNum' value='${cri.pageNum}'>
+	            <input type='hidden' name='amount' value='${cri.amount}'>
+				<input type='hidden' name='type' value='${cri.type}'>
+				<input type='hidden' name='keyword' value='${cri.keyword}'>
 					<div class="form-group">
 						<label>Bno</label> <input class="form-control" name='bno'
 							value=${board.bno } readonly="readonly">
@@ -42,6 +46,7 @@
 					<button type="submit" data-oper='modify' class="btn btn-default">Modify</button>
 					<button type="submit" data-oper='remove' class="btn btn-danger">Remove</button>
 					<button type="submit" data-oper='list' class="btn btn-info">List</button>
+	
 
 				</form>
 			</div>
@@ -55,7 +60,6 @@
 </div>
 <!-- /#page-wrapper -->
 
-<!-- 제이쿼리 cdn이 footer안에 있기 때문에 여기에 위치 -->
 <%@include file="../includes/footer.jsp"%>
 
 <script type="text/javascript">
@@ -72,8 +76,17 @@ $(document).ready(function() {
 		if(operation === 'remove'){
 			formObj.attr("action", "/board/remove");
 		}else if(operation === 'list'){
-			self.location = "/board/list";
-			return;
+			formObj.attr("action", "/board/list").attr("method","get");
+			var pageNumTag = $("input[name='pageNum']").clone();
+			var amountTag = $("input[name='amunt']").clone();
+			var keywordTag = $("input[name='keyword']").clone();
+			var typeTag = $("input[name='type']").clone();
+			
+			formObj.empty();
+			formObj.append(pageNumTag);
+			formObj.append(amountTag);
+			formObj.append(keywordTag);
+			formObj.append(typeTag);
 		}
 		
 		formObj.submit();
@@ -82,3 +95,4 @@ $(document).ready(function() {
 	
 });
 </script>
+
